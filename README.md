@@ -20,7 +20,7 @@ Before using the Receipt System, ensure that you have added the necessary items 
 
 To display the item information, insert the following code into your app.js file:
 
-``js
+```js
 } else if (itemData.name == "receipt") {
   var items = "";
   var i = 1;
@@ -38,7 +38,8 @@ To display the item information, insert the following code into your app.js file
     "<p><strong>Total After Tax: </strong><span>$" + itemData.info.total_after_tax + "</span></p>" +
     "<p><strong>Status: </strong><span>" + itemData.info.description.split(' - ')[1] + "</span></p>"
   )
-}``
+}
+```
 
 ### 1.3. Ensure You Have ox_lib v3 Installed
 
@@ -64,7 +65,8 @@ This server-side export allows you to add an item to a player's bill:
 
 ```lua
 -- addToBill(player, itemName, itemPrice)
-exports['envi-receipts']:addToBill(source, itemName, itemPrice)```
+exports['envi-receipts']:addToBill(source, itemName, itemPrice)
+```
 
 
 **clearBill**
@@ -72,7 +74,8 @@ This server-side export allows you to clear a player's bill:
 
 ```lua
 -- clearBill(player)
-exports['envi-receipts']:clearBill(source)```
+exports['envi-receipts']:clearBill(source)
+```
 
 
 **showBasket**
@@ -80,7 +83,8 @@ This server-side export allows you to get a player's bill as a table of items an
 
 ```lua
 -- showBasket(player)
-local basket = exports['envi-receipts']:showBasket(source)```
+local basket = exports['envi-receipts']:showBasket(source)
+```
 
 
 **giveBill**
@@ -88,7 +92,8 @@ This server-side export allows you to give a receipt to a player with the bill's
 
 ```lua
 -- giveBill(player, howMany, paid)
-exports['envi-receipts']:giveBill(source, 1, true)```
+exports['envi-receipts']:giveBill(source, 1, true)
+```
 
 
 When you want to give a receipt for a single item, you can follow this sequence:
@@ -108,7 +113,8 @@ RegisterServerEvent('burger:example', function(source)
  exports['envi-receipts']:addToBill(source, "Burger", 50)   -- adds it to the total bill
  exports['envi-receipts']:giveBill(source, 1, true)  -- prints the items currently added and rewards receipt item
  exports['envi-receipts']:clearBill(source)      -- clear the bill again for good measure
-end)```
+end)
+```
 
 You can also add as many items as you like/ choose when to print the bill via the item. 
 **Lots of possibilities!** 
