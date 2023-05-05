@@ -1,5 +1,11 @@
 # Receipt System Documentation
 
+Envi-Receipts is a free open-source resource for ESX (using ox inventory) or QB-Core (using qb-inventory)
+This script utilizes item metadata and a simple UI to create an immersive shopping experience!
+
+Preview:
+
+
 ## Table of Contents
 
 1. [Installation](#installation)
@@ -12,11 +18,11 @@
 
 ## Installation
 
-### 1.1. Add Items into qb-core
+### 1.1. Add Items into your qb-core or ox_inventory!
 
-Before using the Receipt System, ensure that you have added the necessary items into the qb-core resource. This will enable the system to recognize and process the items needed.
+Before using the Receipt System, ensure that you have added the necessary items into the appropriate resource. This will enable the system to recognize and process the items needed.
 
-### 1.2. Add Metadata to Display in App.js
+### 1.2. Add Metadata to Display in App.js **(QB-INVENTORY ONLY)**
 
 To display the item information, insert the following code into your app.js file:
 
@@ -41,7 +47,7 @@ To display the item information, insert the following code into your app.js file
 }
 ```
 
-### 1.3. Ensure You Have ox_lib v3 Installed
+### 1.3. Ensure You Have ox_lib Installed
 
 Make sure you have ox_lib installed on your server. This library is required for the Receipt System to work correctly.
 
