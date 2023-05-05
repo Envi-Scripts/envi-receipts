@@ -20,7 +20,7 @@ Before using the Receipt System, ensure that you have added the necessary items 
 
 To display the item information, insert the following code into your app.js file:
 
-``
+``js
 } else if (itemData.name == "receipt") {
   var items = "";
   var i = 1;
