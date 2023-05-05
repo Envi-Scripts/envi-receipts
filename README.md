@@ -20,7 +20,7 @@ Before using the Receipt System, ensure that you have added the necessary items 
 
 To display the item information, insert the following code into your app.js file:
 
-```js
+``
 } else if (itemData.name == "receipt") {
   var items = "";
   var i = 1;
@@ -38,7 +38,7 @@ To display the item information, insert the following code into your app.js file
     "<p><strong>Total After Tax: </strong><span>$" + itemData.info.total_after_tax + "</span></p>" +
     "<p><strong>Status: </strong><span>" + itemData.info.description.split(' - ')[1] + "</span></p>"
   )
-}```
+}``
 
 ### 1.3. Ensure You Have ox_lib v3 Installed
 
