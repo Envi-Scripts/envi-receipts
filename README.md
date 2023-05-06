@@ -3,6 +3,25 @@
 Envi-Receipts is a free open-source resource for ESX (using ox inventory) or QB-Core (using qb-inventory)
 This script utilizes item metadata and a simple UI to create an immersive shopping experience!
 
+## Features:
+
+1. **Integration with ESX/QB-Core**: The system is compatible with popular frameworks, ensuring seamless functionality with your existing setup.
+2. **Customizable item display**: You can easily add metadata to display item information in our realistic user interface.
+3. **Ox_lib Support**: The Receipt System requires and supports ox_liv v3 for a clean user experience.
+4. **Simple and Advanced Usage**: The system provides both simple and advanced methods for using the Receipt System, catering to users with different needs and skill levels.
+5. **Server-side exports**: Several server-side exports are available for integrating the Receipt System with other resources or utilizing more advanced functionality.
+6. **User-friendly Menus**: The Receipt System offers an intuitive in-game menu for adding, reviewing, and managing items and receipts.
+7. **Flexible receipt printing**: Users can print receipts with customizable details, such as payment status and the number of copies.
+8. **Add items to receipt**: The Receipt System allows users to easily add items to the bill by entering their details in the provided menu.
+9. **Clear receipt**: Users can clear the bill to remove all items and start fresh.
+10. **Show receipt**: The Receipt System provides a feature to review the items added to the receipt and their prices.
+11. **Print receipt**: The system allows users to give a receipt to a player with the bill's contents.
+12. **Multiple item management**: You can add as many items as needed via simple or advanced methods, and choose to print the bill via the item, providing a lot of flexibility and possibilities.
+13. **Realistic UI**: View the receipts and all it's info including tax, sub-total, itemised list and more!
+14. **Tax System**: Will allow you to set your own tax percentage in the config file.
+15. **AP-Government Compatibility**: Easy linked with AP Script's Government system to automatically calculate current item tax!
+
+
 Preview:
 
 
