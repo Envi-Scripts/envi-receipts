@@ -23,5 +23,8 @@ shared_scripts {
 
 server_scripts {
 	'server/server.lua',
-	'@oxmysql/lib/MySQL.lua',
 }
+
+data_file 'DLC_ITYP_REQUEST' 'stream/bzzz_prop_payment_terminal.ytyp'
+
+-- version '1.0.0 - Release'
