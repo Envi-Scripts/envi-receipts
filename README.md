@@ -38,7 +38,7 @@ https://youtu.be/srlHgmRgGWY
 
 ## Installation
 
-### 1.1. Add Items into your qb-core or ox_inventory!
+### 1.1. Add Items into your qb-core or ox_inventory! ('receipt' and 'payment_terminal')
 
 Before using the Receipt System, ensure that you have added the necessary items into the appropriate resource. This will enable the system to recognize and process the items needed.
 
