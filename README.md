@@ -20,6 +20,7 @@ This script utilizes item metadata and a simple UI to create an immersive shoppi
 13. **Realistic UI**: View the receipts and all it's info including tax, sub-total, itemised list and more!
 14. **Tax System**: Will allow you to set your own tax percentage in the config file.
 15. **AP-Government Compatibility**: Easy linked with AP Script's Government system to automatically calculate current item tax!
+16. **Custom Prop from BzZz**: Payment terminal prop from the amazingly talented BzZz! - https://bzzz.tebex.io
 
 
 Preview:
