@@ -28,34 +28,35 @@ function updateReceiptHeight() {
   });
   
   function updateUI(metadata) {
-    // Update date and time
     console.log("Received metadata:", metadata);
     $('.header div:nth-child(1)').text('Date: ' + metadata.date);
     $('.header div:nth-child(2)').text('Time: ' + metadata.time);
-  
-    // Remove existing items
+    $('.business-name').text(metadata.type);
     $('.item').remove();
-  
-    // Add new items from metadata
-    for (var i = 1; metadata['item' + i] && metadata['price' + i]; i++) {
+      for (var i = 1; metadata['item' + i] && metadata['price' + i]; i++) {
         var itemDiv = $('<div class="item"></div>');
         var descriptionDiv = $('<div class="description"></div>').text(metadata['item' + i]);
         var priceDiv = $('<div class="price"></div>').text('$' + metadata['price' + i]);
-  
         itemDiv.append(descriptionDiv);
         itemDiv.append(priceDiv);
         $('.Receipt').append(itemDiv);
     }
+    let totalCost = 0;
+    for (var i = 1; metadata['price' + i]; i++) {
+      totalCost += parseFloat(metadata['price' + i]);
+    }
   
-    // Call the updateReceiptHeight function to adjust the receipt's height
+    $('.sub-total').text('Sub Total: $' + totalCost.toFixed(2));
+    $('.tax-amount').text('Tax: $' + metadata.tax_amount);
+    $('.grand-total').text('Total: $' + metadata.total_after_tax);
     updateReceiptHeight();
   }
   
   function display(bool) {
     if (bool) {
-        $('.Receipt').show();
+        $('.Receipt').fadeIn(350);
     } else {
-        $('.Receipt').hide();
+        $('.Receipt').fadeOut(350);
     }
   }
   
