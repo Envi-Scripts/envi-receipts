@@ -7,7 +7,7 @@ This script utilizes item metadata and a simple UI to create an immersive shoppi
 
 1. **Integration with ESX/QB-Core**: The system is compatible with popular frameworks, ensuring seamless functionality with your existing setup.
 2. **Customizable item display**: You can easily add metadata to display item information in our realistic user interface.
-3. **Ox_lib Support**: The Receipt System requires and supports ox_liv v3 for a clean user experience.
+3. **Ox_lib Support**: The Receipt System requires and supports ox_lib v3 for a clean user experience.
 4. **Simple and Advanced Usage**: The system provides both simple and advanced methods for using the Receipt System, catering to users with different needs and skill levels.
 5. **Server-side exports**: Several server-side exports are available for integrating the Receipt System with other resources or utilizing more advanced functionality.
 6. **User-friendly Menus**: The Receipt System offers an intuitive in-game menu for adding, reviewing, and managing items and receipts.
