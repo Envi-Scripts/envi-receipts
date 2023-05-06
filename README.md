@@ -1,4 +1,4 @@
-# Receipt System Documentation
+# Envi-Receipts
 
 Envi-Receipts is a free open-source resource for ESX (using ox inventory) or QB-Core (using qb-inventory)
 This script utilizes item metadata and a simple UI to create an immersive shopping experience!
