@@ -24,7 +24,7 @@ This script utilizes item metadata and a simple UI to create an immersive shoppi
 
 
 Preview:
-
+https://youtu.be/srlHgmRgGWY
 
 ## Table of Contents
 
