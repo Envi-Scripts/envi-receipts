@@ -5,10 +5,12 @@
     <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
     <script src="index.js"></script>
     <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.cdnfonts.com/css/vcr-osd-mono" rel="stylesheet">
   </head>
   <body>
     <div class="Receipt">
       <div class="title">Receipt</div>
+      <div class="business-name"></div>
       <div class="header">
         <div>Date: 01/01/2023</div>
         <div>Time: 12:00 PM</div>
@@ -25,7 +27,12 @@
         <div class="description">Product 3</div>
         <div class="price">$29.99</div>
       </div>
-      <img class="barcode" src="img/barcode.png" alt="Barcode"> <!-- Added barcode image here -->
+      <div class="sub-total-tax">
+        <span class="sub-total"></span>
+        <span class="tax-amount"></span>
+      </div>
+      <div class="grand-total"></div>
+      <img class="barcode" src="img/barcode.png" alt="Barcode">
     </div>
   </body>
 </html>
