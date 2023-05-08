@@ -23,35 +23,29 @@ end)
 
 RegisterNetEvent('envi-receipts:showReceiptToClosestPlayer')
 AddEventHandler('envi-receipts:showReceiptToClosestPlayer', function(slot)
-    local ped = PlayerPedId()
-    local playerCoords = GetEntityCoords(PlayerPedId())
+    local ped = cache.ped
+    local playerCoords = GetEntityCoords(ped)
     local maxDistance = 3.0
     local closestPlayer, closestPlayerPedId, closestPlayerCoords = lib.getClosestPlayer(playerCoords, maxDistance, false)
-    if closestPlayer == nil or closestPlayer == ped or Vdist(playerCoords, closestPlayerCoords) > maxDistance then
+    if not closestPlayer or closestPlayer == ped or #(playerCoords - closestPlayerCoords) > maxDistance then
         Notify('Receipt','Nobody is nearby', 'error', 2500)
         return
     end
-    TriggerServerEvent('envi-receipts:showReceiptToPlayer', GetPlayerServerId(closestPlayer), slot)
+    TriggerServerEvent('envi-receipts:showReceiptToPlayer', cache.serverId, slot)
 end)
 
 RegisterNetEvent('envi-receipts:spawnProp', function()
-    local ped = PlayerPedId()
+    local ped = cache.ped
     local coords = GetEntityCoords(ped)
-    RequestModel(GetHashKey('bzzz_prop_payment_terminal'))
-    while not HasModelLoaded(GetHashKey('bzzz_prop_payment_terminal')) do
-        Wait(1)
-    end
-    RequestAnimDict('cellphone@')
-    while not HasAnimDictLoaded('cellphone@') do
-        Wait(1)
-    end
-    payTerminal = CreateObject(GetHashKey('bzzz_prop_payment_terminal'), coords.x, coords.y, coords.z, true, true, false)
+    lib.requestModel('bzzz_prop_payment_terminal', 300)
+    lib.requestAnimDict('cellphone@', 100)
+    payTerminal = CreateObject(`bzzz_prop_payment_terminal`, coords.x, coords.y, coords.z, true, true, false)
     AttachEntityToEntity(payTerminal, ped, GetPedBoneIndex(ped, 57005), 0.18, 0.01, 0.0, -54.0, 220.0, 43.0, false, false, false, false, 1, true)
     TaskPlayAnim(ped, 'cellphone@', 'cellphone_text_read_base', 8.0, 1.0, -1, 49, 0, false, false, false)
 end)
 
 RegisterNetEvent('envi-receipts:removeProp', function()
-    local ped = PlayerPedId()
+    local ped = cache.ped
     DeleteEntity(payTerminal)
     ClearPedTasks(ped)
 end)
@@ -133,25 +127,25 @@ RegisterNetEvent('envi-receipts:showBasket')
 AddEventHandler('envi-receipts:showBasket', function(basketItems)
     local basketOptions = {}
     for _, itemData in ipairs(basketItems) do
-        table.insert(basketOptions, {
+        basketOptions[#basketOptions + 1] = {
             title = itemData.item,
             description = ('$%d'):format(itemData.price),
             disabled = true
-        })
+        }
     end
     if #basketOptions == 0 then
-        table.insert(basketOptions, {
+        basketOptions[#basketOptions + 1] = {
             title = 'No items in the basket',
             disabled = true
-        })
+        }
     end
-    table.insert(basketOptions, {
+    basketOptions[#basketOptions + 1] = {
         title = 'Clear Basket',
         onSelect = function()
             TriggerServerEvent('envi-receipts:clearBill')
             TriggerServerEvent('envi-receipts:requestBasket')
         end
-    })
+    }
     lib.registerContext({
         id = 'basket_menu',
         title = 'Shopping Basket',
