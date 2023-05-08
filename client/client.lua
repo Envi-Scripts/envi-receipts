@@ -31,7 +31,7 @@ AddEventHandler('envi-receipts:showReceiptToClosestPlayer', function(slot)
         Notify('Receipt','Nobody is nearby', 'error', 2500)
         return
     end
-    TriggerServerEvent('envi-receipts:showReceiptToPlayer', cache.serverId, slot)
+    TriggerServerEvent('envi-receipts:showReceiptToPlayer', GetPlayerServerId(closestPlayer), slot)
 end)
 
 RegisterNetEvent('envi-receipts:spawnProp', function()
