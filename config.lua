@@ -2,7 +2,7 @@ Config = {}
 
 Config.Framework = 'esx'
 -- esx or qb   (esx requires ox_inventory, qb requires qb-inventory)    -- Please submit a PR if you have a different inventory supported.
-Config.UseApGovernmentTax = true
+Config.UseApGovernmentTax = false
  -- If you have ap-government installed, set this to true. If not, set it to false.
 Config.TaxPercentage = 0.1
  -- 0.1 = 10% tax (ONLY if UseApGovernmentTax is set to false)
