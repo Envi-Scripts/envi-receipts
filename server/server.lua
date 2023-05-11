@@ -436,7 +436,7 @@ elseif Config.Framework == 'qb' then
     if Config.Inventory == 'ox' then
         ESX.RegisterUsableItem('receipt', function(source, item, data)
             local slot = data.slot
-            local xPlayer = ESX.GetPlayerFromId(source)
+            local xPlayer = QBCore.Functions.GetPlayer(source)
             local item = exports.ox_inventory:GetSlot(source, slot) 
             if item.metadata then
                 TriggerClientEvent('envi-receipts:useReceipt', source, item.metadata)
