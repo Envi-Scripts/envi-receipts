@@ -434,7 +434,7 @@ elseif Config.Framework == 'qb' then
     end)
 
     if Config.Inventory == 'ox' then
-        ESX.RegisterUsableItem('receipt', function(source, item, data)
+        QBCore.Functions.CreateUseableItem('receipt', function(source, item, data)
             local slot = data.slot
             local xPlayer = QBCore.Functions.GetPlayer(source)
             local item = exports.ox_inventory:GetSlot(source, slot) 
