@@ -17,6 +17,19 @@ if Config.Framework == 'esx' then
         addToBill(source, itemName, itemPrice)
     end)
 
+    if Config.Inventory == 'qs' then
+        function GetItemMetadata(source, item)
+            local xPlayer = QBCore.Functions.GetPlayer(source)
+            if xPlayer then
+                local inventoryItem = exports['qs-inventory']:GetItemBySlot(source, item.slot)
+                if inventoryItem and inventoryItem.name:lower() == item.name:lower() then
+                    return inventoryItem.info
+                end
+            end
+            return nil
+        end
+    end
+
     function printBill(source)
         local xPlayer = ESX.GetPlayerFromId(source)
         local playerId = xPlayer.identifier
@@ -78,7 +91,8 @@ if Config.Framework == 'esx' then
             metadata.tax_amount = tax_amount
             metadata.total_after_tax = string.format("%.2f", total_after_tax)
             metadata.description = basket..' - '..status
-            exports.ox_inventory:AddItem(source, 'receipt', howMany, metadata)
+           -- exports.ox_inventory:AddItem(source, 'receipt', howMany, metadata)
+           AddMetadataItem(source, 'receipt', howMany, metadata)
         else
             local tax_rate = Config.TaxPercentage
             local tax_amount = total * tax_rate
@@ -87,7 +101,8 @@ if Config.Framework == 'esx' then
             metadata.tax_amount = tax_amount
             metadata.total_after_tax = string.format("%.2f", total_after_tax)
             metadata.description = basket..' - '..status
-            exports.ox_inventory:AddItem(source, 'receipt', howMany, metadata)
+            --exports.ox_inventory:AddItem(source, 'receipt', howMany, metadata)
+            AddMetadataItem(source, 'receipt', howMany, metadata)
         end
     end
 
@@ -169,15 +184,24 @@ if Config.Framework == 'esx' then
             end
         end
     end)
-
-    ESX.RegisterUsableItem('receipt', function(source, item, data)
-        local slot = data.slot
-        local xPlayer = ESX.GetPlayerFromId(source)
-        local item = exports.ox_inventory:GetSlot(source, slot) 
-        if item.metadata then
-            TriggerClientEvent('envi-receipts:useReceipt', source, item.metadata)
-        end
-    end)
+    if Config.Inventory == 'ox' then
+        ESX.RegisterUsableItem('receipt', function(source, item, data)
+            local slot = data.slot
+            local xPlayer = ESX.GetPlayerFromId(source)
+            local item = exports.ox_inventory:GetSlot(source, slot) 
+            if item.metadata then
+                TriggerClientEvent('envi-receipts:useReceipt', source, item.metadata)
+            end
+        end)
+    elseif Config.Inventory == 'qs' then
+        exports['qs-inventory']:CreateUsableItem('receipt', function(source, item)
+            local xPlayer = ESX.GetPlayerFromId(source)
+            local metadata = GetItemMetadata(source, item)
+            if metadata ~= nil then
+                TriggerClientEvent('envi-receipts:useReceipt', source, metadata)
+            end
+        end)
+    end
 
     ESX.RegisterUsableItem('payment_terminal', function(source)
         TriggerClientEvent('envi-receipts:openPayTerminal', source)
@@ -205,19 +229,44 @@ if Config.Framework == 'esx' then
             TriggerClientEvent('envi-receipts:notify',source, "The current tax rate is "..tax.."%", "info", 5000)
         end)
     end
+    function AddMetadataItem(source, item, amount, metadata)
+        local xPlayer = ESX.GetPlayerFromId(source)
+        if Config.Inventory == 'ox' then
+            exports.ox_inventory:AddItem(source, item, amount, metadata)
+        elseif Config.Inventory == 'qb' then
+            exports['qb-inventory']:AddItem(source, item, amount, metadata)
+        elseif Config.Inventory == 'qs' then
+            exports['qs-inventory']:AddItem(source, item, amount, nil, metadata)
+        elseif Config.Inventory == 'core' then   --     WORK IN PROGRESS
+            xPlayer.addInventoryItem(item, 1, data)
+        end
+    end
 elseif Config.Framework == 'qb' then
     local QBCore = exports['qb-core']:GetCoreObject()
     local playerBills = {}
     local playerTotals = {}
-    function GetItemMetadata(source, item)
-        local Player = QBCore.Functions.GetPlayer(source)
-        if Player then
-            local inventoryItem = Player.PlayerData.items[item.slot]
-            if inventoryItem and inventoryItem.name:lower() == item.name:lower() then
-                return inventoryItem.info
+    if Config.Inventory == 'qb' then
+        function GetItemMetadata(source, item)
+            local Player = QBCore.Functions.GetPlayer(source)
+            if Player then
+                local inventoryItem = Player.PlayerData.items[item.slot]
+                if inventoryItem and inventoryItem.name:lower() == item.name:lower() then
+                    return inventoryItem.info
+                end
             end
+            return nil
         end
-        return nil
+    elseif Config.Inventory == 'qs' then
+        function GetItemMetadata(source, item)
+            local xPlayer = QBCore.Functions.GetPlayer(source)
+            if xPlayer then
+                local inventoryItem = exports['qs-inventory']:GetItemBySlot(source, item.slot)
+                if inventoryItem and inventoryItem.name:lower() == item.name:lower() then
+                    return inventoryItem.info
+                end
+            end
+            return nil
+        end
     end
 
     function addToBill(source, itemName, itemPrice)
@@ -384,15 +433,35 @@ elseif Config.Framework == 'qb' then
         end
     end)
 
-    QBCore.Functions.CreateUseableItem('receipt', function(source, item)
-        local xPlayer = QBCore.Functions.GetPlayer(source)
-        local metadata = GetItemMetadata(source, item)
-        print(metadata)
-        print('encoded: '..json.encode(metadata))    
-        if metadata ~= nil then
-            TriggerClientEvent('envi-receipts:useReceipt', source, metadata)
-        end
-    end)
+    if Config.Inventory == 'ox' then
+        ESX.RegisterUsableItem('receipt', function(source, item, data)
+            local slot = data.slot
+            local xPlayer = ESX.GetPlayerFromId(source)
+            local item = exports.ox_inventory:GetSlot(source, slot) 
+            if item.metadata then
+                TriggerClientEvent('envi-receipts:useReceipt', source, item.metadata)
+            end
+        end)
+    elseif Config.Inventory == 'qs' then
+        exports['qs-inventory']:CreateUsableItem('receipt', function(source, item)
+            local xPlayer = QBCore.Functions.GetPlayer(source)
+            local metadata = GetItemMetadata(source, item)
+            if metadata ~= nil then
+                TriggerClientEvent('envi-receipts:useReceipt', source, metadata)
+            end
+        end)
+    elseif Config.Inventory =='qb' then
+        QBCore.Functions.CreateUseableItem('receipt', function(source, item)
+            local xPlayer = QBCore.Functions.GetPlayer(source)
+            local metadata = GetItemMetadata(source, item)
+            print(metadata)
+            print('encoded: '..json.encode(metadata))    
+            if metadata ~= nil then
+                TriggerClientEvent('envi-receipts:useReceipt', source, metadata)
+            end
+        end)
+    end
+
     
     QBCore.Functions.CreateUseableItem('payment_terminal', function(source)
         TriggerClientEvent('envi-receipts:openPayTerminal', source)
@@ -422,6 +491,18 @@ elseif Config.Framework == 'qb' then
             local tax = Config.TaxPercentage
             TriggerClientEvent('envi-receipts:notify',source, "Tax Rate", "The current tax rate is "..tax.."%", "info", 5000)
         end)
+    end
+    function AddMetadataItem(source, item, amount, metadata)
+        local xPlayer = QBCore.Functions.GetPlayer(source)
+        if Config.Inventory == 'ox' then
+            exports.ox_inventory:AddItem(source, item, amount, metadata)
+        elseif Config.Inventory == 'qb' then
+            exports['qb-inventory']:AddItem(source, item, amount, metadata)
+        elseif Config.Inventory == 'qs' then
+            exports['qs-inventory']:AddItem(source, item, amount, nil, metadata)
+        elseif Config.Inventory == 'core' then
+            xPlayer.addInventoryItem(item, 1, data)
+        end
     end
 end
 
