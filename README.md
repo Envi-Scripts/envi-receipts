@@ -66,6 +66,20 @@ To display the item information, insert the following code into your app.js file
   )
 }
 ```
+### 1.2.2. Add Metadata to Display in App.js **(QS-INVENTORY ONLY)**
+```js
+        } else if (itemData.name == "receipt") {
+            $(".item-info-title").html("<p>" + itemData.label + "</p>");
+            $(".item-info-description").html(
+              "<p><strong>Date: </strong><span>" + itemData.info.date + "</span></p>" +
+              "<p><strong>Heure: </strong><span>" + itemData.info.time + "</span></p>" +
+              "<p><strong>Total: </strong><span>$" + itemData.info.total + "</span></p>" +
+              "<p><strong>Tax: </strong><span>$" + itemData.info.tax_amount + "</span></p>" +
+              "<p><strong>Total après Tax: </strong><span>$" + itemData.info.total_after_tax + "</span></p>" +
+              "<p><strong>Status: </strong><span>" + itemData.info.description + "</span></p>"
+            );
+```
+
 
 ### 1.3. Ensure You Have ox_lib Installed
 
