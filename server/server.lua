@@ -91,7 +91,6 @@ if Config.Framework == 'esx' then
             metadata.tax_amount = tax_amount
             metadata.total_after_tax = string.format("%.2f", total_after_tax)
             metadata.description = basket..' - '..status
-           -- exports.ox_inventory:AddItem(source, 'receipt', howMany, metadata)
            AddMetadataItem(source, 'receipt', howMany, metadata)
         else
             local tax_rate = Config.TaxPercentage
@@ -101,7 +100,6 @@ if Config.Framework == 'esx' then
             metadata.tax_amount = tax_amount
             metadata.total_after_tax = string.format("%.2f", total_after_tax)
             metadata.description = basket..' - '..status
-            --exports.ox_inventory:AddItem(source, 'receipt', howMany, metadata)
             AddMetadataItem(source, 'receipt', howMany, metadata)
         end
     end
@@ -340,11 +338,10 @@ elseif Config.Framework == 'qb' then
             local tax_amount = total * tax_rate
             local total_after_tax = total + tax_amount
             metadata.total = total
-            inmetadatafo.tax_amount = string.format("%.2f",tax_amount)
+            metadata.tax_amount = string.format("%.2f",tax_amount)
             metadata.total_after_tax = string.format("%.2f", total_after_tax)
-            metadata.description = ' - '..status
-            xPlayer.Functions.AddItem('receipt', howMany, nil, metadata)
-            TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['receipt'], "add")
+            metadata.description = basket..' - '..status
+            AddMetadataItem(source, 'receipt', howMany, metadata)
         else
             local tax_rate = Config.TaxPercentage
             local tax_amount = total * tax_rate
@@ -352,9 +349,8 @@ elseif Config.Framework == 'qb' then
             metadata.total = total
             metadata.tax_amount = string.format("%.2f",tax_amount)
             metadata.total_after_tax = string.format("%.2f", total_after_tax)
-            metadata.description = ' - '..status
-            xPlayer.Functions.AddItem('receipt', howMany, nil, metadata)
-            TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['receipt'], "add")
+            metadata.description = basket..' - '..status
+            AddMetadataItem(source, 'receipt', howMany, metadata)
         end
     end
 
@@ -434,14 +430,14 @@ elseif Config.Framework == 'qb' then
     end)
 
     if Config.Inventory == 'ox' then
-        QBCore.Functions.CreateUseableItem('receipt', function(source, item, data)
-            local slot = data.slot
-            local xPlayer = QBCore.Functions.GetPlayer(source)
-            local item = exports.ox_inventory:GetSlot(source, slot) 
-            if item.metadata then
-                TriggerClientEvent('envi-receipts:useReceipt', source, item.metadata)
-            end
-        end)
+        -- QBCore.Functions.CreateUseableItem('receipt', function(source, item, data)
+        --     local slot = data.slot
+        --     local xPlayer = QBCore.Functions.GetPlayer(source)
+        --     local item = exports.ox_inventory:GetSlot(source, slot) 
+        --     if item.metadata then
+        --         TriggerClientEvent('envi-receipts:useReceipt', source, item.metadata)
+        --     end
+        -- end)                  -- register the item through ox_inventory instead
     elseif Config.Inventory == 'qs' then
         exports['qs-inventory']:CreateUsableItem('receipt', function(source, item)
             local xPlayer = QBCore.Functions.GetPlayer(source)
@@ -454,8 +450,6 @@ elseif Config.Framework == 'qb' then
         QBCore.Functions.CreateUseableItem('receipt', function(source, item)
             local xPlayer = QBCore.Functions.GetPlayer(source)
             local metadata = GetItemMetadata(source, item)
-            print(metadata)
-            print('encoded: '..json.encode(metadata))    
             if metadata ~= nil then
                 TriggerClientEvent('envi-receipts:useReceipt', source, metadata)
             end
@@ -498,6 +492,7 @@ elseif Config.Framework == 'qb' then
             exports.ox_inventory:AddItem(source, item, amount, metadata)
         elseif Config.Inventory == 'qb' then
             exports['qb-inventory']:AddItem(source, item, amount, metadata)
+            TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['receipt'], "add")
         elseif Config.Inventory == 'qs' then
             exports['qs-inventory']:AddItem(source, item, amount, nil, metadata)
         elseif Config.Inventory == 'core' then
