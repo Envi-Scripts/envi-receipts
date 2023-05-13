@@ -31,7 +31,7 @@ https://youtu.be/srlHgmRgGWY
 ## Table of Contents
 
 1. [Installation](#installation)
-    1. [Add Items into qb-core](#11-add-items-into-qb-core)
+    1. [Add Items into inventory/ qb-core](#11-add-items-into-qb-core)
     2. [Add Metadata to Display in App.js](#12-add-metadata-to-display-in-appjs)
     3. [Ensure You Have ox_lib v3 Installed](#13-ensure-you-have-ox_lib-v3-installed)
 2. [Usage](#usage)
@@ -41,6 +41,41 @@ https://youtu.be/srlHgmRgGWY
 ## Installation
 
 ### 1.1. Add Items into your qb-core or ox_inventory! ('receipt' and 'payment_terminal')
+
+### 1.1.2 Set up your items like this for additonal functionality! **(OX INVENTORY ONLY)**
+```lua
+['receipt'] = {
+	label = 'Receipt',
+	weight = 20, 
+	stack = false,
+	close = true,
+	description = nil,
+	buttons = {
+		{
+			label = 'Show Receipt',
+			action = function(slot)
+				TriggerEvent('envi-receipts:showReceiptToClosestPlayer', slot)
+			end
+		}
+	}
+},
+
+['payment_terminal'] = {
+	label = 'Receipt Printer',
+	weight = 2000, 
+	stack = false,
+	close = true,
+	description = 'A handy device for printing receipts on-the-go!',
+	buttons = {
+		{
+			label = 'Print Receipt',
+			action = function()
+				TriggerEvent('envi-receipts:quickPrint')
+			end
+		}
+	}
+},
+```
 
 Before using the Receipt System, ensure that you have added the necessary items into the appropriate resource. This will enable the system to recognize and process the items needed.
 
@@ -82,10 +117,18 @@ To display the item information, insert the following code into your app.js file
             );
 ```
 
+### 1.2.3. Register The Receipt Item in your Ox_Inventory (**ONLY IF YOU ARE USING OX WITH QB-CORE!!**)
+
+Add this to *ox_inventory > modules > items > client.lua*
+```lua
+Item('receipt', function(data, slot)
+    TriggerEvent("envi-receipts:useReceipt", slot.metadata)
+end)
+```
 
 ### 1.3. Ensure You Have ox_lib Installed
 
-Make sure you have ox_lib installed on your server. This library is required for the Receipt System to work correctly.
+Make sure you have ox_lib installed on your server. This library must be started before envi-receipts.
 
 ## 2. Usage
 
