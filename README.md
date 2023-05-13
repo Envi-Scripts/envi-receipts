@@ -68,7 +68,7 @@ To display the item information, insert the following code into your app.js file
   )
 }
 ```
-### 1.2.2. Add Metadata to Display in App.js **(QS-INVENTORY ONLY)**
+### 1.2.2. Add Metadata to Display in qs-inventory/config/metadata.js **(QS-INVENTORY ONLY)**
 ```js
         } else if (itemData.name == "receipt") {
             $(".item-info-title").html("<p>" + itemData.label + "</p>");
