@@ -74,7 +74,8 @@ https://youtu.be/srlHgmRgGWY
 			end
 		}
 	}
-},```
+},
+```
 
 Before using the Receipt System, ensure that you have added the necessary items into the appropriate resource. This will enable the system to recognize and process the items needed.
 
