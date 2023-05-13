@@ -167,6 +167,32 @@ RegisterCommand('taxcheck', function()
     TriggerServerEvent('envi-receipts:checkTax')
 end)
 
+RegisterNetEvent('envi-receipts:quickPrint', function()
+    TriggerEvent('envi-receipts:spawnProp')
+    local input = lib.inputDialog('Ready to Print?', {
+        {type = 'number', label = 'Number of Copies', required = true, min = 1},
+        {type = 'checkbox', label = 'PAID IN FULL'},
+    })
+
+    if input then
+        local howMany = tonumber(input[1])
+        local paid = input[2]
+        TriggerServerEvent('envi-receipts:giveBill', howMany, paid)
+        local alert = lib.alertDialog({
+            header = 'Receipt Printed',
+            content = 'Would you like to clear the current basket?',
+            centered = true,
+            cancel = true
+        })
+        if alert == 'confirm' then 
+            TriggerServerEvent('envi-receipts:clearBill')
+        end
+    else
+        TriggerEvent('envi-receipts:removeProp')
+    end
+    TriggerEvent('envi-receipts:removeProp')
+end)
+
 -- RegisterCommand('receipt', function()    -- uncomment if you'd rather just use a command
 --     lib.showContext('main_menu')
 --     TriggerEvent('envi-receipts:spawnProp')
