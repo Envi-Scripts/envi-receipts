@@ -27,5 +27,5 @@ server_scripts {
 
 data_file 'DLC_ITYP_REQUEST' 'stream/bzzz_prop_payment_terminal.ytyp'
 
--- version '1.1.0 - QS INVENTORY V2 SUPPORT'
+-- version '1.1.2 - FULL COMPATIBILITY WHEN USING OX_INVENTORY WITH QB-CORE'
 
