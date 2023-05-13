@@ -123,7 +123,8 @@ Add this to *ox_inventory > modules > items > client.lua*
 ```lua
 Item('receipt', function(data, slot)
     TriggerEvent("envi-receipts:useReceipt", slot.metadata)
-end)```
+end)
+```
 
 ### 1.3. Ensure You Have ox_lib Installed
 
