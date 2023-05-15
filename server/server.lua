@@ -491,7 +491,7 @@ elseif Config.Framework == 'qb' then
         if Config.Inventory == 'ox' then
             exports.ox_inventory:AddItem(source, item, amount, metadata)
         elseif Config.Inventory == 'qb' then
-            exports['qb-inventory']:AddItem(source, item, amount, metadata)
+            exports['qb-inventory']:AddItem(source, item, amount, nil, metadata)
             TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['receipt'], "add")
         elseif Config.Inventory == 'qs' then
             exports['qs-inventory']:AddItem(source, item, amount, nil, metadata)
