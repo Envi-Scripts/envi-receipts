@@ -19,7 +19,7 @@ if Config.Framework == 'esx' then
 
     if Config.Inventory == 'qs' then
         function GetItemMetadata(source, item)
-            local xPlayer = QBCore.Functions.GetPlayer(source)
+            local xPlayer = ESX.GetPlayerFromId(source)
             if xPlayer then
                 local inventoryItem = exports['qs-inventory']:GetItemBySlot(source, item.slot)
                 if inventoryItem and inventoryItem.name:lower() == item.name:lower() then
