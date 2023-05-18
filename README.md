@@ -99,7 +99,7 @@ To display the item information, insert the following code into your app.js file
     "<p><strong>Total: </strong><span>$" + itemData.info.total + "</span></p>" +
     "<p><strong>Tax Amount: </strong><span>$" + itemData.info.tax_amount + "</span></p>" +
     "<p><strong>Total After Tax: </strong><span>$" + itemData.info.total_after_tax + "</span></p>" +
-    "<p><strong>Status: </strong><span>" + itemData.info.description.split(' - ')[1] + "</span></p>"
+    "<p><strong>Status: </strong><span>" + itemData.info.description.split(' - ').pop() + "</span></p>"
   )
 }
 ```
