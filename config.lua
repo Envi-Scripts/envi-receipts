@@ -1,7 +1,7 @@
 Config = {}
 
-Config.Framework = 'esx' -- esx or qb  
-Config.Inventory = 'ox' -- 'ox' = ox_inventory, 'qb' = qb-inventory, 'qs' = qs-inventory
+Config.Framework = 'qb' -- esx or qb  
+Config.Inventory = 'qb' -- 'ox' = ox_inventory, 'qb' = qb-inventory, 'qs' = qs-inventory
 
 Config.UseApGovernmentTax = false
  -- If you have ap-government installed, set this to true. If not, set it to false.
