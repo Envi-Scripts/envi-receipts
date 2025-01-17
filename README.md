@@ -3,6 +3,8 @@
 Envi-Receipts is a free open-source resource for ESX or QB-Core
 This script utilizes item metadata and a simple UI to create an immersive shopping experience!
 
+**NOW UPDATED TO A NEW VERSION!**
+
 **NOW SUPPORTS OX INVENTORY, QB-INVENTORY AND QS-INVENTORY V2**
 
 ## Features:
@@ -76,43 +78,50 @@ https://youtu.be/srlHgmRgGWY
 	}
 },
 ```
+### 1.1.3 Set up your items like this for additonal functionality! **(QB INVENTORY ONLY)**
+```lua
+    ['receipt']                  = {['name'] = 'receipt',          ['label'] = 'Receipt', ['weight'] = 5, ['type'] = 'item', ['image'] = 'receipt.png', ['unique'] = true, ['useable'] = true, ['shouldClose'] = true, ['combinable'] = nil, ['description'] = 'Receipt copy'},
+    ['payment_terminal']         = {['name'] = 'payment_terminal', ['label'] = 'Payment Terminal', ['weight'] = 100, ['type'] = 'item', ['image'] = 'payment_terminal.png', ['unique'] = true, ['useable'] = true, ['shouldClose'] = true, ['combinable'] = nil, ['description'] = 'A handy device for printing receipts on-the-go!'},
+```
 
 Before using the Receipt System, ensure that you have added the necessary items into the appropriate resource. This will enable the system to recognize and process the items needed.
 
-### 1.2. Add Metadata to Display in App.js **(QB-INVENTORY ONLY)**
+### 1.2. Add Metadata to Display in App.js **(QB-INVENTORY BASED INVENTORIES ONLY)**
 
 To display the item information, insert the following code into your app.js file:
 
 ```js
 } else if (itemData.name == "receipt") {
-  var items = "";
-  var i = 1;
-  while (itemData.info["item" + i]) {
-    items += "<p><strong>Item " + i + ": </strong><span>" + itemData.info["item" + i] + " - $" + itemData.info["price" + i] + "</span></p>";
-    i++;
-  }
-  $(".item-info-title").html("<p>" + itemData.label + "</p>");
-  $(".item-info-description").html(
-    "<p><strong>Date: </strong><span>" + itemData.info.date + "</span></p>" +
-    "<p><strong>Time: </strong><span>" + itemData.info.time + "</span></p>" +
-    items +
-    "<p><strong>Total: </strong><span>$" + itemData.info.total + "</span></p>" +
-    "<p><strong>Tax Amount: </strong><span>$" + itemData.info.tax_amount + "</span></p>" +
-    "<p><strong>Total After Tax: </strong><span>$" + itemData.info.total_after_tax + "</span></p>" +
-    "<p><strong>Status: </strong><span>" + itemData.info.description.split(' - ').pop() + "</span></p>"
-  )
-}
+		var items = "";
+		var i = 1;
+		while (itemData.info["item" + i]) {
+		  items += "<p><strong>Item " + i + ": </strong><span>" + itemData.info["item" + i] + " - $" + itemData.info["price" + i] + "</span></p>";
+		  i++;
+		}
+		$(".item-info-title").html("<p>" + itemData.label + "</p>");
+		$(".item-info-description").html(
+		  "<p><strong>Business: </strong><span>" + itemData.info.type + "</span></p>" +
+		  "<p><strong>Date: </strong><span>" + itemData.info.date + "</span></p>" +
+		  "<p><strong>Time: </strong><span>" + itemData.info.time + "</span></p>" +
+		  items +
+		  "<p><strong>Total: </strong><span>$" + itemData.info.total + "</span></p>" +
+		  "<p><strong>Taxes: </strong><span>$" + itemData.info.tax_amount + "</span></p>" +
+		  "<p><strong>Total + Taxes: </strong><span>$" + itemData.info.total_after_tax + "</span></p>" +
+		  "<p><strong>Status: </strong><span>" + itemData.info.description.split(' - ').pop() + "</span></p>"
+		)
+	}
 ```
 ### 1.2.2. Add Metadata to Display in qs-inventory/config/metadata.js **(QS-INVENTORY ONLY)**
 ```js
         } else if (itemData.name == "receipt") {
             $(".item-info-title").html("<p>" + itemData.label + "</p>");
             $(".item-info-description").html(
+              "<p><strong>Business: </strong><span>" + itemData.info.type + "</span></p>" +
               "<p><strong>Date: </strong><span>" + itemData.info.date + "</span></p>" +
-              "<p><strong>Heure: </strong><span>" + itemData.info.time + "</span></p>" +
+              "<p><strong>Time: </strong><span>" + itemData.info.time + "</span></p>" +
               "<p><strong>Total: </strong><span>$" + itemData.info.total + "</span></p>" +
-              "<p><strong>Tax: </strong><span>$" + itemData.info.tax_amount + "</span></p>" +
-              "<p><strong>Total après Tax: </strong><span>$" + itemData.info.total_after_tax + "</span></p>" +
+              "<p><strong>Taxes: </strong><span>$" + itemData.info.tax_amount + "</span></p>" +
+              "<p><strong>Total + Taxes: </strong><span>$" + itemData.info.total_after_tax + "</span></p>" +
               "<p><strong>Status: </strong><span>" + itemData.info.description + "</span></p>"
             );
 ```
@@ -140,6 +149,7 @@ The simple method of using the Receipt System involves the following steps:
 2. **Add items manually**: Once the menu is open, you can add items to the receipt by entering their details in the provided menu.
 3. **Show Basket**: You can review the items added to the receipt and their prices by checking the basket. If you need to remove any items, simply click the "Clear Basket" button.
 4. **Print Receipt**: After finalizing the items and their prices, click the "Print Receipt" button. You will be prompted to select whether the bill is paid in full or not and the number of receipt copies you want to print.
+5. **Interact with the receipt**: After finalizing your boughts, you can use the receipt and interact with it scrolling down or up to see all the items that you bought.
 
 ### 2.2. Advanced Usage
 
@@ -176,8 +186,8 @@ local basket = exports['envi-receipts']:showBasket(source)
 This server-side export allows you to give a receipt to a player with the bill's contents:
 
 ```lua
--- giveBill(player, howMany, paid)
-exports['envi-receipts']:giveBill(source, 1, true)
+-- giveBill(player, howMany, paid, businessJob)
+exports['envi-receipts']:giveBill(source, 1, true, 'Vanilla Unicorn')
 ```
 
 
@@ -196,7 +206,7 @@ RegisterServerEvent('burger:example', function(source)
  Player.Functions.AddItem("burger", 1)
  exports['envi-receipts']:clearBill(source)      -- clears any old data
  exports['envi-receipts']:addToBill(source, "Burger", 50)   -- adds it to the total bill
- exports['envi-receipts']:giveBill(source, 1, true)  -- prints the items currently added and rewards receipt item
+ exports['envi-receipts']:giveBill(source, 1, true, 'Vanilla Unicorn')  -- prints the items currently added and rewards receipt item
  exports['envi-receipts']:clearBill(source)      -- clear the bill again for good measure
 end)
 ```

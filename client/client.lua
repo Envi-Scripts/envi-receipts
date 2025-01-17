@@ -197,4 +197,3 @@ end)
 --     lib.showContext('main_menu')
 --     TriggerEvent('envi-receipts:spawnProp')
 -- end)
-

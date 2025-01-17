@@ -113,7 +113,7 @@ if Config.Framework == 'esx' then
             playerTotals[playerId] = 0
             TriggerClientEvent('envi-receipts:notify',source, "Basket Cleared", "The current bill has been cleared.", "success", 5000)
         else
-            TriggerClientEvent('envi-receipts:notify',source, "Basket Empty", "There is no bill to clear.", "error", 5000)
+            -- TriggerClientEvent('envi-receipts:notify',source, "Basket Empty", "There is no bill to clear.", "error", 5000)
         end
     end
 
@@ -304,22 +304,28 @@ elseif Config.Framework == 'qb' then
         return basket
     end
 
-    function giveBill(source, howMany, paid)
+    function giveBill(source, howMany, paid, businessJob)
         local xPlayer = QBCore.Functions.GetPlayer(source)
         local playerId = xPlayer.PlayerData.citizenid
         local total = 0
         local basket = ""
-        if paid then status = "[ PAYMENT SUCCESSFUL ]" else status = "[ PAYMENT OUTSTANDING ]" end
+        local status = paid and "[ PAYMENT SUCCESSFUL ]" or "[ PAYMENT OUTSTANDING ]"
         local metadata = {
             description = ' ',
-            type = xPlayer.PlayerData.job.label,
             payment = paid
         }
+        
+        -- Solo establece el tipo si businessJob está definido
+        if businessJob and businessJob ~= "" then
+            metadata.type = businessJob
+        end
+    
         local itemCount = 1
         local currentDate = os.date("%x")
         local currentTime = os.date("%H:%M")
         metadata.date = currentDate
         metadata.time = currentTime
+    
         if playerBills[playerId] then
             basket = "PURCHASED GOODS:\n"
             for item, price in pairs(playerBills[playerId]) do
@@ -332,24 +338,25 @@ elseif Config.Framework == 'qb' then
         else
             basket = "Your receipt is empty."
         end
+    
         if Config.UseApGovernmentTax then
             local taxType = "Item"
             local tax_rate = exports['ap-government']:TaxAmounts(taxType)
             local tax_amount = total * tax_rate
             local total_after_tax = total + tax_amount
             metadata.total = total
-            metadata.tax_amount = string.format("%.2f",tax_amount)
+            metadata.tax_amount = string.format("%.2f", tax_amount)
             metadata.total_after_tax = string.format("%.2f", total_after_tax)
-            metadata.description = basket..' - '..status
+            metadata.description = basket .. ' - ' .. status
             AddMetadataItem(source, 'receipt', howMany, metadata)
         else
             local tax_rate = Config.TaxPercentage
             local tax_amount = total * tax_rate
             local total_after_tax = total + tax_amount
             metadata.total = total
-            metadata.tax_amount = string.format("%.2f",tax_amount)
+            metadata.tax_amount = string.format("%.2f", tax_amount)
             metadata.total_after_tax = string.format("%.2f", total_after_tax)
-            metadata.description = basket..' - '..status
+            metadata.description = basket .. ' - ' .. status
             AddMetadataItem(source, 'receipt', howMany, metadata)
         end
     end
@@ -362,7 +369,7 @@ elseif Config.Framework == 'qb' then
             playerTotals[playerId] = 0
             TriggerClientEvent('envi-receipts:notify',source, "Basket Cleared", "The current bill has been cleared.", "success", 5000)
         else
-            TriggerClientEvent('envi-receipts:notify',source, "Basket Empty", "There is no bill to clear.", "error", 5000)
+            -- TriggerClientEvent('envi-receipts:notify',source, "Basket Empty", "There is no bill to clear.", "error", 5000)
         end
     end
 
@@ -505,5 +512,3 @@ exports('addToBill', addToBill)
 exports('clearBill', clearBill)
 exports('showBasket', showBasket)
 exports('giveBill', giveBill)
---exports('editItem', editItem)      -- unused currently
---exports('removeItem', removeItem)  -- unused currently

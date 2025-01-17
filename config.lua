@@ -5,10 +5,10 @@ Config.Inventory = 'qb' -- 'ox' = ox_inventory, 'qb' = qb-inventory, 'qs' = qs-i
 
 Config.UseApGovernmentTax = false
  -- If you have ap-government installed, set this to true. If not, set it to false.
+
 Config.TaxPercentage = 0.1
  -- 0.1 = 10% tax (ONLY if UseApGovernmentTax is set to false)
 
- 
 function Notify(header, message, type, time)
     lib.notify({
         id = 'terminal',
