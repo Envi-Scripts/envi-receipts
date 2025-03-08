@@ -52,7 +52,10 @@ end)
 
 RegisterNetEvent('envi-receipts:useReceipt')
 AddEventHandler('envi-receipts:useReceipt', function(metadata)
-    print(json.encode(metadata))
+    if Config.Inventory == 'ox' then
+        exports.ox_inventory:closeInventory()
+    end
+    SetDisplay(true)
     SendNUIMessage({
         type = "ui",
         status = true,
